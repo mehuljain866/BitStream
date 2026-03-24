@@ -1,7 +1,7 @@
 # BitStream
 A pro-grade visual data storage tool that encodes files into bit-perfect, lossless FFV1 videos. Features a custom neon-cyberpunk dashboard, high-density RGB encoding, and steganography to hide data inside normal videos. Perfect for visual archival, air-gapped transfer, and experimental cloud backups.
 
- ### ** Key Features**
+ ### **Key Features**
 
 *    **Lossless FFV1 Integrity:** Uses the professional-grade FFV1 codec and AVI container to ensure every single bit is recovered exactly, preventing the corruption common in standard video compression.
 *    **Steganographic Tunneling:** Hide private files inside a "cover" video (like an anime clip or a lecture). To the naked eye, it looks like a normal video, but the software can extract the hidden payload.
@@ -27,7 +27,7 @@ A pro-grade visual data storage tool that encodes files into bit-perfect, lossle
 
 ---
 
-## ** Installation**
+## **Installation**
 
 Ensure you have **Python 3.10+** installed. 
 
@@ -59,7 +59,7 @@ BitStream/
 ```
 
 ---
-## ** How to Use**
+## **How to Use**
 
 ### **1. Encoding (Files → Video)**
 *   Click the **"Files"** label on the left to upload individual files or an entire folder. This copies your data into the local input directory.
@@ -82,17 +82,17 @@ BitStream/
 
 ---
 
-### ** Recommendations**
+### **Recommendations**
 *   **Compression First:** Always ZIP or 7z your folders *before* encoding to minimize the number of video frames required.
 *   **Resolution Balance:** Use 512x512 for a good balance between data density and encoding speed.
 
-*   ### ** License**
+*   ### **License**
 This project is released under the **MIT License** for code and **Creative Commons BY-NC 4.0** for documentation.
 **TL;DR:** Use it freely, modify it, but **don’t sell it without credit or permission**.
 
 ---
 
-### ** Acknowledgments**
+### **Acknowledgments**
 *   Special thanks to the open-source community for the FFV1 codec implementation.
 
 ---
