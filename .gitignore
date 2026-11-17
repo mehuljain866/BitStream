@@ -1,0 +1,27 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.tmp
+
+# BitStream Runtime & I/O
+settings.json
+input/
+output/
+cover_video/
+
+# Environments
+.venv/
+venv/
+ENV/
+
+# PyInstaller / Build
+build/
+dist/
+*.spec
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
