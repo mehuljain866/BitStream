@@ -14,6 +14,7 @@ jobs:
   build:
     name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental || false }}
     strategy:
       fail-fast: false
       matrix:
@@ -22,6 +23,12 @@ jobs:
             artifact_name: BitStream-Windows.exe
             build_cmd: pyinstaller --name "BitStream-Windows" --onefile --windowed --collect-all customtkinter main.py
             output_path: dist/BitStream-Windows.exe
+            experimental: false
+          - os: ubuntu-latest
+            artifact_name: BitStream-Linux
+            build_cmd: pyinstaller --name "BitStream-Linux" --onefile --collect-all customtkinter main.py
+            output_path: dist/BitStream-Linux
+            experimental: false
           - os: macos-latest
             artifact_name: BitStream-macOS.zip
             build_cmd: |
@@ -29,10 +36,7 @@ jobs:
               cd dist
               zip -r BitStream-macOS.zip BitStream-macOS.app || zip -r BitStream-macOS.zip BitStream-macOS
             output_path: dist/BitStream-macOS.zip
-          - os: ubuntu-latest
-            artifact_name: BitStream-Linux
-            build_cmd: pyinstaller --name "BitStream-Linux" --onefile --collect-all customtkinter main.py
-            output_path: dist/BitStream-Linux
+            experimental: true
 
     steps:
       - name: Checkout repository
@@ -70,7 +74,7 @@ jobs:
   release:
     name: Publish Release Assets
     needs: build
-    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    if: always() && !cancelled()
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -80,16 +84,21 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: release-artifacts
+          merge-multiple: true
 
       - name: Prepare release files
         run: |
           mkdir -p release-dist
-          find release-artifacts -type f -exec cp {} release-dist/ \;
+          if [ -d "release-artifacts" ]; then
+            find release-artifacts -maxdepth 1 -type f -exec cp {} release-dist/ \;
+          fi
           ls -lh release-dist/
 
       - name: Create or Update GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'v1.0.0' }}
+          name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'BitStream v1.0.0 — Standalone Executables' }}
           files: release-dist/*
           draft: false
           prerelease: false
